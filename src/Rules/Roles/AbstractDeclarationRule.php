@@ -15,7 +15,8 @@ use PHPStan\Rules\RuleErrorBuilder;
 
 /**
  * A class playing the role must be declared final, and for some roles also
- * readonly.
+ * readonly. Interfaces, traits and enums are skipped: they can't be, and
+ * RoleOnClassRule reports a role attribute on them.
  *
  * @implements Rule<InClassNode>
  */
@@ -59,7 +60,10 @@ abstract class AbstractDeclarationRule implements Rule
     final public function processNode(Node $node, Scope $scope): array
     {
         $reflection = $node->getClassReflection();
-        if ($reflection->isAnonymous() || !$this->roleResolver->plays($reflection, $this->getRole())) {
+        if (
+            $reflection->isAnonymous() || $reflection->isInterface() || $reflection->isEnum() || $reflection->isTrait()
+            || !$this->roleResolver->plays($reflection, $this->getRole())
+        ) {
             return [];
         }
 

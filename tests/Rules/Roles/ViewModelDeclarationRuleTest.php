@@ -40,6 +40,15 @@ final class ViewModelDeclarationRuleTest extends AbstractRuleTestCase
     }
 
     #[Test]
+    public function interfacesAndEnumsWithTheAttributeAreIgnored(): void
+    {
+        $this->assertIssuesReported(
+            __DIR__.'/Fixtures/ViewModel/InterfaceViewModel.php',
+            __DIR__.'/Fixtures/ViewModel/EnumViewModel.php',
+        );
+    }
+
+    #[Test]
     public function classesWithoutTheAttributeAreIgnored(): void
     {
         $this->assertIssuesReported(__DIR__.'/Fixtures/ViewModel/PlainViewModel.php');

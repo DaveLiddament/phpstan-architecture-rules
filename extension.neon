@@ -55,6 +55,9 @@ parameters:
             enabled: true
             # Classes that may stay roleless, e.g. framework glue outside the app root.
             exemptClasses: []
+        roleOnClass:
+            # Set to false to allow role attributes on interfaces, traits and enums.
+            enabled: true
 
 parametersSchema:
     architecture: structure([
@@ -162,6 +165,9 @@ parametersSchema:
         roleRequired: structure([
             enabled: bool()
             exemptClasses: listOf(string())
+        ])
+        roleOnClass: structure([
+            enabled: bool()
         ])
     ])
 
@@ -293,6 +299,11 @@ services:
         arguments:
             exemptClasses: %architecture.roleRequired.exemptClasses%
 
+    -
+        class: DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RoleOnClassRule
+        arguments:
+            roles: %architecture.roles%
+
 conditionalTags:
     DaveLiddament\PhpstanArchitectureRules\Rules\Boundaries\LibIsolationRule:
         phpstan.rules.rule: %architecture.boundaries.enabled%
@@ -358,3 +369,5 @@ conditionalTags:
         phpstan.rules.rule: %architecture.roles.controller%
     DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RoleRequiredRule:
         phpstan.rules.rule: %architecture.roleRequired.enabled%
+    DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RoleOnClassRule:
+        phpstan.rules.rule: %architecture.roleOnClass.enabled%

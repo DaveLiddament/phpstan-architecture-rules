@@ -1,0 +1,4 @@
+parameters:
+    architecture:
+        roleOnClass:
+            enabled: false

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DaveLiddament\PhpstanArchitectureRules\Tests\Roles;
 
+use DaveLiddament\Architecture\Attribute\Exported;
+use DaveLiddament\Architecture\Attribute\Service;
 use DaveLiddament\PhpstanArchitectureRules\Roles\Role;
 use DaveLiddament\PhpstanArchitectureRules\Roles\RoleResolver;
 use DaveLiddament\PhpstanArchitectureRules\Tests\Roles\Fixtures\AliasAttribute;
@@ -104,6 +106,17 @@ final class RoleResolverTest extends PHPStanTestCase
         self::assertTrue($resolver->hasAnyRole($this->classReflection(AliasAttributed::class)));
         self::assertFalse($resolver->hasAnyRole($this->classReflection(Plain::class)));
         self::assertFalse($resolver->hasAnyRole($this->classReflection(ExportedOnly::class)), '#[Exported] is not a role');
+    }
+
+    #[Test]
+    public function rolesGivenByListsTheRolesOfARoleOrAliasAttribute(): void
+    {
+        $resolver = new RoleResolver(['entity' => ['attributes' => ['\\'.AliasAttribute::class]]], ['doctrine' => true]);
+
+        self::assertSame([Role::Service], $resolver->rolesGivenBy(Service::class));
+        self::assertSame([Role::Entity], $resolver->rolesGivenBy(AliasAttribute::class));
+        self::assertSame([Role::Entity], $resolver->rolesGivenBy('Doctrine\ORM\Mapping\Entity'));
+        self::assertSame([], $resolver->rolesGivenBy(Exported::class), '#[Exported] is not a role');
     }
 
     #[Test]

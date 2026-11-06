@@ -33,6 +33,7 @@ use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\QueueProcessorDeclaration
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RepositoryDeclarationRule;
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RepositoryDependencyRule;
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RepositoryMethodRule;
+use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RoleOnClassRule;
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\RoleRequiredRule;
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\SerializerDeclarationRule;
 use DaveLiddament\PhpstanArchitectureRules\Rules\Roles\ServiceDeclarationRule;
@@ -80,6 +81,10 @@ final class RuleSets
 
     public const array ROLE_REQUIRED = [
         RoleRequiredRule::class,
+    ];
+
+    public const array ROLE_ON_CLASS = [
+        RoleOnClassRule::class,
     ];
 
     /**

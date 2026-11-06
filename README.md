@@ -126,6 +126,9 @@ final readonly class InvoiceSender
 }
 ```
 
+Roles are for classes. A role attribute, or an [alias](#role-aliases) attribute, on an interface, trait or enum does
+nothing, so it is reported (`architecture.roleOnClass`).
+
 What each role means, and how to choose one, is in the [attributes README](https://github.com/DaveLiddament/architecture-rules-attributes#the-roles).
 The rules for each role are below. Each role's rules can be turned off with its switch under `architecture.roles`
 (see [Configuration](#configuration)).
@@ -326,6 +329,8 @@ parameters:
         roleRequired:
             enabled: true
             exemptClasses: []                # framework glue that may stay roleless
+        roleOnClass:
+            enabled: true
 ```
 
 PHPStan adds list values to the defaults. To replace a list instead, add `!` to its key, e.g. `ignoredNamespaces!:`.
@@ -390,6 +395,7 @@ aliases are added to those of the [framework presets](#framework-presets).
 | All the rules for one role | `roles.<role>: false`, e.g. `roles.service: false` |
 | Requiring every class to declare a role | `roleRequired.enabled: false` |
 | The role requirement for a single class | Add it to `roleRequired.exemptClasses` |
+| Reporting role attributes on interfaces, traits and enums | `roleOnClass.enabled: false` |
 | Part of the placement report | `placement.<part>: false`, e.g. `placement.sharedUsage: false` |
 
 Shared and Pending can also be moved to any namespace, not just under `App\`. Pending is named after the last part

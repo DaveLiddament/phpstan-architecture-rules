@@ -99,6 +99,23 @@ final readonly class RoleResolver
     }
 
     /**
+     * The roles an attribute gives a class: the role's own attribute, or one
+     * of its alias attributes.
+     *
+     * @return list<Role>
+     */
+    public function rolesGivenBy(string $attribute): array
+    {
+        $attribute = self::normalise($attribute);
+
+        return array_values(array_filter(
+            Role::cases(),
+            fn (Role $role): bool => $role->attributeClass() === $attribute
+                || in_array($attribute, $this->roleAliases[$role->value]['attributes'] ?? [], true),
+        ));
+    }
+
+    /**
      * Whether the class plays any role. Any attribute from the role attribute
      * namespace counts, so a role added to the attributes package is
      * recognised before these rules know about it. #[Exported] is not a role.

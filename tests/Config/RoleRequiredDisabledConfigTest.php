@@ -29,5 +29,6 @@ final class RoleRequiredDisabledConfigTest extends PHPStanTestCase
     {
         self::assertSame(RuleSets::roles(), RuleSets::enabledIn(self::getContainer(), RuleSets::roles()));
         self::assertSame(RuleSets::BOUNDARIES, RuleSets::enabledIn(self::getContainer(), RuleSets::BOUNDARIES));
+        self::assertSame(RuleSets::ROLE_ON_CLASS, RuleSets::enabledIn(self::getContainer(), RuleSets::ROLE_ON_CLASS));
     }
 }
